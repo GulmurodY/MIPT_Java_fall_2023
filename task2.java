@@ -50,22 +50,30 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        BinarySearchTree tree = new BinarySearchTree();
-
+    private static void readInputAndBuildTree(Scanner scanner, BinarySearchTree tree) {
         int inputValue = scanner.nextInt();
         while (inputValue != 0) {
             tree.insert(inputValue);
             inputValue = scanner.nextInt();
         }
+    }
+
+    private static void printLeavesList(ArrayList<Integer> leavesList) {
+        for (int leafValue : leavesList) {
+            System.out.println(leafValue);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        BinarySearchTree tree = new BinarySearchTree();
+
+        readInputAndBuildTree(scanner, tree);
 
         ArrayList<Integer> leavesList = new ArrayList<>();
         tree.findLeaves(tree.root, leavesList);
 
-        for (int leafValue : leavesList) {
-            System.out.println(leafValue);
-        }
+        printLeavesList(leavesList);
     }
 }
 //https://contest.yandex.ru/contest/51733/run-report/91797135/
