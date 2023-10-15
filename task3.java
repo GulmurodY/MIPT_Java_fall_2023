@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class StringPatternSearch {
+public class Main {
 
     public static int[] computePrefixFunction(String pattern) {
         int[] prefixFunction = new int[pattern.length()];
@@ -17,40 +17,12 @@ public class StringPatternSearch {
         }
         return prefixFunction;
     }
-
-    public static int[] computeZFunction(String pattern) {
-        int[] zFunction = new int[pattern.length()];
-        int left = 0;
-        int right = 0;
-        for (int i = 1; i < pattern.length(); i++) {
-            if (i > right) {
-                left = i;
-                right = i;
-                while (right < pattern.length() && pattern.charAt(right) == pattern.charAt(right - left)) {
-                    right++;
-                }
-                zFunction[i] = right - left;
-            } else if (zFunction[i - left] < right - i) {
-                zFunction[i] = zFunction[i - left];
-            } else {
-                left = i;
-                while (right < pattern.length() && pattern.charAt(right) == pattern.charAt(right - left)) {
-                    right++;
-                }
-                zFunction[i] = right - left;
-            }
-        }
-        return zFunction;
-    }
-
     public static int[] findPatternOccurrences(String pattern, String text) {
         int[] prefixFunction = computePrefixFunction(pattern);
-        int[] zFunction = computeZFunction(pattern);
-
         int[] occurrences = new int[text.length()];
-        int i = 0;
-        int j = 0;
-        int k = 0;
+        
+        int i = 0, j = 0, k = 0;
+        
         while (i < text.length()) {
             if (text.charAt(i) == pattern.charAt(j)) {
                 i++;
@@ -69,21 +41,19 @@ public class StringPatternSearch {
 
         return Arrays.copyOfRange(occurrences, 0, k);
     }
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        String pattern = scanner.nextLine();
-        String text = scanner.nextLine();
-
-        int[] occurrences = findPatternOccurrences(pattern, text);
-
+    private static void printOcurrence(int[] occurrences) {
         StringBuilder output = new StringBuilder();
         for (int occurrence : occurrences) {
             output.append(occurrence).append(" ");
         }
-
         System.out.println(output.toString().trim());
+    }
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String pattern = scanner.nextLine();
+        String text = scanner.nextLine();
+        printOcurrence(findPatternOccurrences(pattern, text));
     }
 }
 //https://contest.yandex.ru/contest/51733/run-report/91805709/
